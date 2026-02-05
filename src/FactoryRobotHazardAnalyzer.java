@@ -15,6 +15,7 @@ public class FactoryRobotHazardAnalyzer {
             );
 
             System.out.println("Hazard Risk Score: " + riskScore);
+            evaluateRiskLevel(riskScore);
 
         } catch (HazardEvaluationException e) {
             System.out.println("Error: " + e.getMessage());
@@ -45,6 +46,14 @@ public class FactoryRobotHazardAnalyzer {
         }
 
         return riskScore;
+    }
+
+    static void evaluateRiskLevel(int riskScore) {
+        if (riskScore > 100) {
+            System.out.println("Status: HIGH RISK");
+        } else {
+            System.out.println("Status: SAFE");
+        }
     }
 }
 
