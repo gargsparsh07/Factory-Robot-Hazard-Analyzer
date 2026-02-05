@@ -1,32 +1,39 @@
 public class FactoryRobotHazardAnalyzer {
 
     public static void main(String[] args) {
-        int armPrecision = 80;
-        int workerDensity = 5;
-        String machineryState = "ON";
+        try {
+            int armPrecision = 80;
+            int workerDensity = 5;
+            String machineryState = "ON";
 
-        validateInputs(armPrecision, workerDensity, machineryState);
+            validateInputs(armPrecision, workerDensity, machineryState);
 
-        int riskScore = calculateRiskScore(
-                armPrecision,
-                workerDensity,
-                machineryState
-        );
+            int riskScore = calculateRiskScore(
+                    armPrecision,
+                    workerDensity,
+                    machineryState
+            );
 
-        System.out.println("Hazard Risk Score: " + riskScore);
+            System.out.println("Hazard Risk Score: " + riskScore);
+
+        } catch (HazardEvaluationException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
-    static void validateInputs(int armPrecision, int workerDensity, String machineryState) {
+    static void validateInputs(int armPrecision, int workerDensity, String machineryState)
+            throws HazardEvaluationException {
+
         if (armPrecision < 0 || armPrecision > 100) {
-            throw new IllegalArgumentException("Invalid arm precision");
+            throw new HazardEvaluationException("Invalid arm precision");
         }
 
         if (workerDensity < 0) {
-            throw new IllegalArgumentException("Invalid worker density");
+            throw new HazardEvaluationException("Invalid worker density");
         }
 
         if (!machineryState.equals("ON") && !machineryState.equals("OFF")) {
-            throw new IllegalArgumentException("Invalid machinery state");
+            throw new HazardEvaluationException("Invalid machinery state");
         }
     }
 
@@ -38,5 +45,13 @@ public class FactoryRobotHazardAnalyzer {
         }
 
         return riskScore;
+    }
+}
+
+/* Custom Exception Class */
+class HazardEvaluationException extends Exception {
+
+    public HazardEvaluationException(String message) {
+        super(message);
     }
 }
